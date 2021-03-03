@@ -3,6 +3,7 @@ pub enum RedisValue {
     SimpleStringStatic(&'static str),
     SimpleString(String),
     BulkString(String),
+    Buffer(Vec<u8>),
     Integer(i64),
     Float(f64),
     Array(Vec<RedisValue>),

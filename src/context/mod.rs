@@ -145,6 +145,12 @@ impl Context {
                 raw::RedisModule_ReplyWithSimpleString.unwrap()(self.ctx, msg.as_ptr()).into()
             },
 
+            Ok(RedisValue::Buffer(buf)) => unsafe {
+                let size = buf.len();
+                let msg = buf.as_ptr() as *const i8;
+                raw::RedisModule_ReplyWithStringBuffer.unwrap()(self.ctx, msg, size).into()
+            },
+
             Ok(RedisValue::BulkString(s)) => unsafe {
                 raw::RedisModule_ReplyWithString.unwrap()(
                     self.ctx,
